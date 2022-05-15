@@ -1,0 +1,8 @@
+apply_patches:
+	cd poky/build; \
+	cp -r ../../patches/recipes-graphics ../meta-radxa/; \
+	cp ../../patches/rockpi-4b-rk3399.conf ../meta-radxa/conf/machine/; \
+	cp ../../patches/rockchip-radxa-gpt-img.bbclass ../meta-radxa/classes/; \
+	cp ../../patches/tcmode-default.inc ../meta/conf/distro/include/; \
+	cp ../../patches/bblayers.conf ./conf/; \
+	cp ../../patches/local.conf ./conf/
