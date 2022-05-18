@@ -36,6 +36,7 @@ apply_patches:
 	cp ../../patches/linux-rockchip_4.4.bb ../meta-rockchip/recipes-kernel/linux/; \
 	cp ../../patches/systemd_%.bbappend ../meta-rockchip-extra/recipes-core/systemd/; \
 	cp ../../patches/rk-image-multimedia.bb ../meta-rockchip-extra/recipes-rk/images/; \
+	cp ../../patches/rk-base.inc ../meta-rockchip-extra/conf/distro/include/; \
 	cp ../../patches/tcmode-default.inc ../meta/conf/distro/include/; \
 	cp ../../patches/bblayers.conf ./conf/; \
 	cp ../../patches/local.conf ./conf/
