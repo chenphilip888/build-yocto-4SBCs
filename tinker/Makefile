@@ -25,6 +25,7 @@ get_kernel:
 
 apply_patches:
 	cd poky/build; \
+	cp -r ../../patches/meta-custom ../; \
 	rm -rf ../meta-rockchip/recipes-graphics; \
 	rm -rf ../meta-rockchip/recipes-bsp/rk-binary; \
 	rm -rf ../meta-rockchip/recipes-bsp/u-boot; \

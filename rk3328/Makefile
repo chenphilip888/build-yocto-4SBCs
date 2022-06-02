@@ -14,6 +14,7 @@ get_kernel:
 
 apply_patches:
 	cd poky/build; \
+	cp -r ../../patches/meta-custom ../; \
 	cp -r ../../patches/recipes-graphics ../meta-radxa/; \
 	cp ../../patches/evb-rk3328.conf ../meta-radxa/conf/machine/; \
 	cp ../../patches/rk3328-gpt-img.bbclass ../meta-radxa/classes/; \
