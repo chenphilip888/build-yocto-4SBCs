@@ -20,11 +20,10 @@ Steps to build yocto sdcard image:
    git clone git://git.yoctoproject.org/meta-raspberrypi.git -b dunfell
    git clone https://git.openembedded.org/meta-openembedded -b dunfell
    source oe-init-build-env
-   vi ../meta-raspberrypi/conf/machine/include/rpi-base.inc ( add
-   overlays/pwm-2chan.dtbo overlays/uart2.dtbo in RPI_KERNEL_DEVICETREE_OVERLAYS)
-   cp -r ../../patches/meta-custom ../
-   cp ../../patches/bblayers.conf ./conf/
-   cp ../../patches/local.conf ./conf/
+   cd ../../
+   make apply_patches
+
+   cd poky; source oe-init-build-env;
    bitbake -s
    bitbake -c cleansstate core-image-x11
    bitbake -k core-image-x11
