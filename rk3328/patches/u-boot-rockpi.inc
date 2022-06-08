@@ -2,7 +2,7 @@ require recipes-bsp/u-boot/u-boot.inc
 
 DESCRIPTION = "RockPi U-Boot"
 LICENSE = "GPLv2+"
-LIC_FILES_CHKSUM = "file://Licenses/README;md5=5a7450c57ffe5ae63fd732446b988025"
+LIC_FILES_CHKSUM = "file://Licenses/README;md5=2ca5f2c35c8cc335f0a19756634782f1"
 COMPATIBLE_MACHINE = "(rk3036|rk3066|rk3188|rk3288|rk3328|rk3399|rk3308)"
 
 DEPENDS = "dtc-native bc-native swig-native bison-native"

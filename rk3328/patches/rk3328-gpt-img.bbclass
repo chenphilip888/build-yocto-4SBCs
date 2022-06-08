@@ -101,18 +101,16 @@ create_rk_image () {
 	BOOT_START=$(expr ${ATF_START} + ${ATF_SIZE})
 	ROOTFS_START=$(expr ${BOOT_START} + ${BOOT_SIZE})
 
-	parted -s ${GPTIMG} unit s mkpart loader1 ${LOADER1_START} $(expr ${RESERVED1_START} - 1)
-	# parted -s ${GPTIMG} unit s mkpart reserved1 ${RESERVED1_START} $(expr ${RESERVED2_START} - 1)
-	# parted -s ${GPTIMG} unit s mkpart reserved2 ${RESERVED2_START} $(expr ${LOADER2_START} - 1)
-	parted -s ${GPTIMG} unit s mkpart loader2 ${LOADER2_START} $(expr ${ATF_START} - 1)
-	parted -s ${GPTIMG} unit s mkpart trust ${ATF_START} $(expr ${BOOT_START} - 1)
+	parted -s ${GPTIMG} unit s mkpart loader1 64 8063
+	parted -s ${GPTIMG} unit s mkpart loader2 16384 24575
+	parted -s ${GPTIMG} unit s mkpart trust 24576 32767
 
 	# Create boot partition and mark it as bootable
-	parted -s ${GPTIMG} unit s mkpart boot ${BOOT_START} $(expr ${ROOTFS_START} - 1)
+	parted -s ${GPTIMG} unit s mkpart boot 32768 1081343
 	parted -s ${GPTIMG} set 4 boot on
 
 	# Create rootfs partition
-	parted -s ${GPTIMG} -- unit s mkpart rootfs ${ROOTFS_START} -34s
+	parted -s ${GPTIMG} -- unit s mkpart rootfs 1081344 -34s
 
 	parted ${GPTIMG} print
 
@@ -134,7 +132,7 @@ EOF
 	BOOT_BLOCKS=$(LC_ALL=C parted -s ${GPTIMG} unit b print | awk '/ 4 / { print substr($4, 1, length($4 -1)) / 512 /2 }')
 	BOOT_BLOCKS=$(expr $BOOT_BLOCKS / 63 \* 63)
 
-	mkfs.vfat -n "boot" -S 512 -C ${WORKDIR}/${BOOT_IMG} $BOOT_BLOCKS
+	mkfs.vfat -n "boot" -S 512 -C ${WORKDIR}/${BOOT_IMG} 1024100
 	mcopy -i ${WORKDIR}/${BOOT_IMG} -s ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}-${MACHINE}.bin ::${KERNEL_IMAGETYPE}
 	DTB_NAME=""
 	DTB_NAME=$(echo "${KERNEL_DEVICETREE}" | cut -d '/' -f 2)
@@ -144,10 +142,10 @@ EOF
 	mmd -i ${WORKDIR}/${BOOT_IMG} ::/extlinux
 	mcopy -i ${WORKDIR}/${BOOT_IMG} -s ~/build-yocto-4SBCs/rk3328/patches/rk3328.conf ::/extlinux/extlinux.conf
 	# Burn Boot Partition
-	dd if=${WORKDIR}/${BOOT_IMG} of=${GPTIMG} conv=notrunc,fsync seek=${BOOT_START}
+	dd if=${WORKDIR}/${BOOT_IMG} of=${GPTIMG} conv=notrunc,fsync seek=32768
 
 	# Burn Rootfs Partition
-	dd if=${IMG_ROOTFS} of=${GPTIMG} conv=notrunc,fsync seek=${ROOTFS_START}
+	dd if=${IMG_ROOTFS} of=${GPTIMG} conv=notrunc,fsync seek=1081344
 
 }
 
@@ -223,9 +221,9 @@ EOF
 
 	trust_merger --size 1024 1 ${DEPLOY_DIR_IMAGE}/trust.ini
 
-	dd if=${DEPLOY_DIR_IMAGE}/${IDBLOADER} of=${GPTIMG} conv=notrunc,fsync seek=${LOADER1_START}
-	dd if=${DEPLOY_DIR_IMAGE}/${UBOOT_IMG} of=${GPTIMG} conv=notrunc,fsync seek=${LOADER2_START}
-	dd if=${DEPLOY_DIR_IMAGE}/${TRUST_IMG} of=${GPTIMG} conv=notrunc,fsync seek=${ATF_START}
+	dd if=${DEPLOY_DIR_IMAGE}/${IDBLOADER} of=${GPTIMG} conv=notrunc,fsync seek=64
+	dd if=${DEPLOY_DIR_IMAGE}/${UBOOT_IMG} of=${GPTIMG} conv=notrunc,fsync seek=16384
+	dd if=${DEPLOY_DIR_IMAGE}/${TRUST_IMG} of=${GPTIMG} conv=notrunc,fsync seek=24576
 }
 
 generate_rk3399_loader_image () {
