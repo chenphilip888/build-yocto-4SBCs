@@ -50,6 +50,7 @@ do_image_rk3328_gpt_img[depends] += " \
 	dosfstools-native:do_populate_sysroot \
 	radxa-binary-native:do_populate_sysroot \
 	radxa-binary-loader:do_deploy \
+	u-boot-rockchip:do_deploy \
 	virtual/kernel:do_deploy \
 	virtual/bootloader:do_deploy"
 

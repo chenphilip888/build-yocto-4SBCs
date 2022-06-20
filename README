@@ -80,7 +80,7 @@ Steps to build yocto sdcard image:
    \rm -rf ~/build-yocto-4SBCs/radxa/poky/build/tmp/work
 
 5. cd ~/build-yocto-4SBCs/rk3328
-   git clone https://github.com/radxa/kernel.git -b release-4.4-rockpi4
+   git clone https://github.com/radxa/kernel.git --depth=1 -b release-4.4-rockpi4
    mv kernel kernel.git
    \rm -rf kernel.git/.git
    git clone git://git.yoctoproject.org/poky -b thud
@@ -116,7 +116,7 @@ Steps to build yocto sdcard image:
    git clone https://github.com/TinkerBoard/debian_u-boot.git -b release
    make u-boot
 
-   git clone https://github.com/TinkerBoard/debian_kernel.git -b release
+   git clone https://github.com/TinkerBoard/debian_kernel.git --depth=1 -b release
    mv debian_kernel debian_kernel.git
    \rm -rf debian_kernel.git/.git
    git clone git://git.yoctoproject.org/poky -b thud

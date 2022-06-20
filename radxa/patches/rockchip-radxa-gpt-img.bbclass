@@ -50,6 +50,7 @@ do_image_rockchip_radxa_gpt_img[depends] += " \
 	dosfstools-native:do_populate_sysroot \
 	radxa-binary-native:do_populate_sysroot \
 	radxa-binary-loader:do_deploy \
+	u-boot-rockpi-4:do_deploy \
 	virtual/kernel:do_deploy \
 	virtual/bootloader:do_deploy"
 
