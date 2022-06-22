@@ -21,9 +21,3 @@ do_compile_append () {
 		cp ${B}/spl/${SPL_BINARY} ${B}/
 	fi
 }
-
-do_after_deploy() {
-    cp -a ${B}/tools/mkimage ${DEPLOY_DIR_IMAGE}
-}
-
-addtask after_deploy after do_deploy before do_build

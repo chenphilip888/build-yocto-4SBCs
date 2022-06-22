@@ -8,3 +8,7 @@ SRC_URI = " \
 SRCREV = "${AUTOREV}"
 
 S = "${WORKDIR}/git"
+
+do_compile_append () {
+	cp -a ${B}/tools/mkimage ${DEPLOY_DIR_IMAGE}
+}
